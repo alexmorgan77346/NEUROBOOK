@@ -1,0 +1,27 @@
+{
+  "name": "NeuroBook – Mind Architecture",
+  "short_name": "NeuroBook",
+  "description": "A modern notebook app for cognitive architecture and mental models",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#08080d",
+  "theme_color": "#08080d",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "screenshots": [],
+  "shortcuts": []
+}

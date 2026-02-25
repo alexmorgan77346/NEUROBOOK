@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08080d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NeuroBook">
+<meta name="description" content="A modern notebook app for cognitive architecture and mental models">
+<title>NeuroBook – Mind Architecture</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="void">
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sb">
+  <div class="sb-top">
+    <div class="sb-logo-row">
+      <span class="sb-logo-icon">𝑁</span>
+      <span class="sb-app-name">NeuroBook</span>
+    </div>
+    <div class="sb-tagline">Mind Architecture Notebook</div>
+    <div class="lang-row">
+      <button class="lb on" onclick="setLang('en')">EN</button>
+      <button class="lb"    onclick="setLang('hi')">हिंदी</button>
+    </div>
+  </div>
+
+  <div class="sb-nav" id="sbNav"></div>
+
+  <button class="add-mb" onclick="openOv('ovAddMod')">
+    <span>＋</span><span id="lblAddMod">Add Module</span>
+  </button>
+
+  <div class="sb-ft">
+    <div class="th-hd" id="lblTheme">Theme</div>
+    <div class="swatches">
+      <div class="sw on" data-t="void"   onclick="setTheme('void')"   title="Void"></div>
+      <div class="sw"    data-t="arctic" onclick="setTheme('arctic')" title="Arctic"></div>
+      <div class="sw"    data-t="ember"  onclick="setTheme('ember')"  title="Ember"></div>
+      <div class="sw"    data-t="mint"   onclick="setTheme('mint')"   title="Mint"></div>
+      <div class="sw"    data-t="noir"   onclick="setTheme('noir')"   title="Noir"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+  <div class="topbar">
+    <!-- Sidebar toggle -->
+    <button class="sb-toggle" id="sbToggle" title="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="tb-divider"></div>
+
+    <div class="tb-info">
+      <div class="tb-t" id="tbT">NeuroBook</div>
+      <div class="tb-s" id="tbS">Select a module</div>
+    </div>
+
+    <div class="tb-act">
+      <div class="save-indicator" id="saveInd">
+        <div class="save-dot"></div>
+        <span>Saved</span>
+      </div>
+      <button class="btn" onclick="dlPDF()" id="btnPDF">⬇ <span id="lblPDF">PDF</span></button>
+    </div>
+  </div>
+
+  <div id="content">
+    <!-- Module content renders here -->
+  </div>
+</div>
+
+<!-- ══ MODAL: Add Module ══ -->
+<div class="ov" id="ovAddMod">
+  <div class="modal">
+    <div class="m-title">📌 New Module</div>
+    <div class="fg"><label class="fl">Module Title *</label><input class="fi" id="nT" placeholder="e.g. Sleep Architecture"></div>
+    <div class="fg"><label class="fl">Subtitle</label><input class="fi" id="nS" placeholder="e.g. Circadian Network"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="nSu" placeholder="Brief description of this module..."></textarea></div>
+    <div class="fg">
+      <label class="fl">Accent Color</label>
+      <select class="fsel" id="nC">
+        <option value="#c084fc">● Purple</option>
+        <option value="#fb923c">● Orange</option>
+        <option value="#22d3ee">● Cyan</option>
+        <option value="#a3e635">● Lime</option>
+        <option value="#f43f5e">● Rose</option>
+        <option value="#818cf8">● Indigo</option>
+        <option value="#34d399">● Emerald</option>
+        <option value="#fbbf24">● Amber</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Key Points (one per line)</label><textarea class="ft" id="nP" style="min-height:90px" placeholder="Point 1&#10;Point 2&#10;Point 3"></textarea></div>
+    <div class="m-act">
+      <button class="btn" onclick="closeOv('ovAddMod')">Cancel</button>
+      <button class="btn pri" onclick="createMod()">Create Module</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Edit Module ══ -->
+<div class="ov" id="ovEditMod">
+  <div class="modal">
+    <div class="m-title">✎ Edit Module</div>
+    <div class="fg"><label class="fl">Title</label><input class="fi" id="emTitle"></div>
+    <div class="fg"><label class="fl">Subtitle</label><input class="fi" id="emSub"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="emLead"></textarea></div>
+    <div class="fg"><label class="fl">Icon (emoji)</label><input class="fi" id="emIcon" placeholder="📌" maxlength="4" style="max-width:80px"></div>
+    <div class="fg">
+      <label class="fl">Accent Color</label>
+      <select class="fsel" id="emColor">
+        <option value="#c084fc">● Purple</option>
+        <option value="#fb923c">● Orange</option>
+        <option value="#22d3ee">● Cyan</option>
+        <option value="#a3e635">● Lime</option>
+        <option value="#f43f5e">● Rose</option>
+        <option value="#818cf8">● Indigo</option>
+        <option value="#34d399">● Emerald</option>
+        <option value="#fbbf24">● Amber</option>
+      </select>
+    </div>
+    <div class="m-act">
+      <button class="btn" onclick="closeOv('ovEditMod')">Cancel</button>
+      <button class="btn pri" onclick="saveModMeta()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Add Card ══ -->
+<div class="ov" id="ovAddCard">
+  <div class="modal">
+    <div class="m-title">＋ Add Card</div>
+    <div class="fg"><label class="fl">Badge / Label</label><input class="fi" id="acBadge" placeholder="e.g. New Brain Region"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="acDesc" style="min-height:85px" placeholder="Describe this component or concept..."></textarea></div>
+    <div class="m-act">
+      <button class="btn" onclick="closeOv('ovAddCard')">Cancel</button>
+      <button class="btn pri" onclick="confirmAddCard()">Add Card</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast">
+  <span>✓</span>
+  <span class="toast-msg"></span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
