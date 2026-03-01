@@ -1,4 +1,4 @@
-const CACHE_NAME = 'neurobook-v1';
+const CACHE_NAME = 'neurobook-v7';
 const ASSETS = [
   '/',
   '/index.html',
